@@ -6,8 +6,8 @@ export default function Navigation() {
     <>
       <nav>
         <MuiLink variant="h5" href='/'>Home</MuiLink>
-        <MuiLink variant="h5" href='/pocitadlo'>Počítadlo</MuiLink>
-        <MuiLink variant="h5" href='/eshop'>Eshop</MuiLink>
+        <MuiLink variant="h5" href='pocitadlo'>Počítadlo</MuiLink>
+        <MuiLink variant="h5" href='eshop'>Eshop</MuiLink>
       </nav>
       <Outlet />
     </>
