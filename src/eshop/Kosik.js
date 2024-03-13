@@ -1,5 +1,6 @@
 import Typography from "@mui/material/Typography";
 import Polozka from "./Polozka";
+import { Grid, Paper } from "@mui/material";
 
 export default function Kosik(props) {
 
@@ -7,24 +8,29 @@ export default function Kosik(props) {
 
     function cenaKosiku() {
         let soucet = 0;
-        for (let polozka of kosik) {
-            soucet += polozka.price;
+        for (let zbozi of kosik) {
+            soucet += zbozi.polozka.price * zbozi.mnozstvi;
         }
         return soucet;
     }
 
-    return(
+    return (
         <>
             <Typography variant="h5" gutterBottom>Cena košíku: {cenaKosiku()}</Typography>
-            {
-                kosik.map(polozka => (
-                    <>
-                    <Typography variant="h5" gutterBottom>{polozka.title}</Typography>
-                    <button onClick={() => props.odebratPolozku(polozka)}>Odebrat</button>
-                    <Polozka data={polozka}/>
-                    </>
-                ))
-            }
+            <Grid container spacing={4}>
+                {
+                    kosik.map(zbozi => (
+                        <Grid item xs={3} key={zbozi.id}>
+                            <Paper style={{padding: "10px"}}>
+                                <Typography variant="h5" gutterBottom>Název: {zbozi.polozka.title}</Typography>
+                                <Typography variant="h5" gutterBottom>Množství: {zbozi.mnozstvi}</Typography>
+                                <button onClick={() => props.odebratPolozku(zbozi)}>Odebrat</button>
+                                <Polozka data={zbozi.polozka}></Polozka>
+                            </Paper>
+                        </Grid>
+                    ))
+                }
+            </Grid>
         </>
     );
 }
