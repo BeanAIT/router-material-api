@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/router-material-api/static/css/main.7c605b47.css",
-    "main.js": "/router-material-api/static/js/main.a61861d2.js",
+    "main.js": "/router-material-api/static/js/main.2336c3c1.js",
     "index.html": "/router-material-api/index.html",
     "main.7c605b47.css.map": "/router-material-api/static/css/main.7c605b47.css.map",
-    "main.a61861d2.js.map": "/router-material-api/static/js/main.a61861d2.js.map"
+    "main.2336c3c1.js.map": "/router-material-api/static/js/main.2336c3c1.js.map"
   },
   "entrypoints": [
     "static/css/main.7c605b47.css",
-    "static/js/main.a61861d2.js"
+    "static/js/main.2336c3c1.js"
   ]
 }
