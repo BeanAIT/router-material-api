@@ -9,7 +9,9 @@ import OblibenaBarva from './oblibena_barva/OblibenaBarva';
 export default function App() {
   return (
     <HashRouter basename='/'>
+      
       <Navigace/>
+
       <Routes>
           <Route index element={<Home />} />
           <Route path="/pocitadlo" element={<Pocitadlo />} />
@@ -17,6 +19,7 @@ export default function App() {
           <Route path="/oblibena-barva" element={<OblibenaBarva />} />
           <Route path="*" element={<NoPage />} />
       </Routes>
+   
     </HashRouter>
   );
 }
