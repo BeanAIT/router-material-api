@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hra medvěd - s nepřítelem</title>
+</head>
+
+<body>
+    <canvas id="canvas" width="1200" height="800"></canvas>
+    <span id="cas">0</span>
+    <div>
+        <ol id="highscore"></ol>
+    </div>
+    <script>
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        var medvedXposun = 0
+        var medvedYposun = 0
+        var medvedDelta = 10
+
+        var nepritelArr = []
+        nepritelArr[0] = new vytvorNepritele()
+
+        var cas = 0
+        
+        vykresliPlochu()
+
+        window.addEventListener("keydown", function (e) {
+            // console.log(e.keyCode)
+
+            if (e.keyCode == 38) {
+                medvedYposun -= medvedDelta
+            }
+            else if (e.keyCode == 40) {
+                medvedYposun += medvedDelta
+            }
+            else if (e.keyCode == 37) {
+                medvedXposun -= medvedDelta
+            }
+            else if (e.keyCode == 39) {
+                medvedXposun += medvedDelta
+            }
+            // vykresliPlochu()
+        })
+
+        function vytvorNepritele() {
+            this.xPozice = Math.ceil(Math.random() * canvas.width),
+            this.yPozice = Math.ceil(Math.random() * canvas.height),
+            this.xPosun = 5,
+            this.yPosun = 5,
+            this.obrazek = new Image(),
+            this.obrazek.src = "meteor.png",
+            this.vykresliNepritele = function () {
+                ctx.fillStyle = "yellow";
+                ctx.beginPath();
+                ctx.arc(this.xPozice, this.yPozice, 5, 0, Math.PI * 2); // pravá zornice
+                ctx.fill();
+                ctx.drawImage(this.obrazek, this.xPozice-20, this.yPozice-20, 40, 40)
+            },
+            this.zkontrolujKoliziOkraje = function() {
+                if (this.xPozice <= 0 || this.xPozice >= canvas.width) {
+                    this.xPosun *= -1
+                } 
+                if (this.yPozice <= 0 || this.yPozice >= canvas.height) {
+                    this.yPosun *= -1
+                }
+                this.xPozice += this.xPosun
+                this.yPozice += this.yPosun
+            }
+        }
+
+        function vykresliPlochu() {
+
+            // obloha
+            ctx.fillStyle = "#87CEEB";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // tráva
+            ctx.fillStyle = "#00CD00";
+            ctx.fillRect(0, 350, canvas.width, canvas.height);
+
+            // Slunce
+            ctx.fillStyle = "#FDB813";
+            ctx.beginPath();
+            ctx.arc(100, 100, 50, 0, 2 * Math.PI);
+            ctx.fill();
+
+            // mraky
+            ctx.fillStyle = "#FFFFFF";
+            ctx.beginPath();
+            ctx.arc(200, 100, 30, 0, 2 * Math.PI);
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(250, 80, 40, 0, 2 * Math.PI);
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(300, 100, 30, 0, 2 * Math.PI);
+            ctx.fill();
+
+            // vykreslení medvěda
+            ctx.fillStyle = "#8B5A2B"; // hnědá barva
+            ctx.beginPath();
+            ctx.arc(200 + medvedXposun, 400 + medvedYposun, 60, 0, Math.PI * 2); // hlava
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.rect(150 + medvedXposun, 440 + medvedYposun, 100, 100); // tělo
+            ctx.fill();
+            
+            ctx.fillStyle = "white";
+            ctx.beginPath();
+            ctx.arc(190 + medvedXposun, 395 + medvedYposun, 10, 0, Math.PI * 2); // levé oko
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(210 + medvedXposun, 395 + medvedYposun, 10, 0, Math.PI * 2); // pravé oko
+            ctx.fill();
+
+            ctx.fillStyle = "black";
+            ctx.beginPath();
+            ctx.arc(192 + medvedXposun, 393 + medvedYposun, 5, 0, Math.PI * 2); // levá zornice
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(212 + medvedXposun, 393 + medvedYposun, 5, 0, Math.PI * 2); // pravá zornice
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(200 + medvedXposun, 415 + medvedYposun, 20, 0, Math.PI); // ústa
+            ctx.stroke();
+
+            for (let i = 0; i < nepritelArr.length; i++) {
+                let nepritel = nepritelArr[i]
+                nepritel.zkontrolujKoliziOkraje()
+                nepritel.vykresliNepritele()
+            }
+
+            // nepritel1.vykresliNepritele()
+            // nepritel1.vykresliNepritele()
+            
+            document.getElementById("cas").innerText = cas
+        }
+
+        function opakujFunkci() {
+            cas += 20
+            
+            if (cas % 10000 == 0) {
+                nepritelArr.push(new vytvorNepritele())
+            }
+
+            vykresliPlochu()
+            
+            for (let i = 0; i < nepritelArr.length; i++) {
+                let nepritel = nepritelArr[i]
+                if(zkontrolujKolizi(nepritel)) {
+                    clearInterval(posunNepritele)
+
+                    let person = prompt("Please enter your name", "Harry Potter");
+                    document.getElementById('highscore').innerHTML += "<li>" + person + ": " + cas + "</li>"
+
+                    cas = 0
+                    nepritelArr = []
+                    nepritelArr[0] = new vytvorNepritele()
+
+                    posunNepritele = setInterval(opakujFunkci, 20)
+                    return
+                }
+            }
+            
+        }
+
+        var posunNepritele = setInterval(opakujFunkci, 20)
+
+        function zkontrolujKolizi(nepritel) {
+            if (nepritel.xPozice >= 150 + medvedXposun && nepritel.xPozice <= 150 + medvedXposun + 100) {
+                if (nepritel.yPozice >= 440 + medvedYposun && nepritel.yPozice <= 440 + medvedYposun + 100) {
+                    return true
+                }
+            }
+            return false
+        }
+
+    </script>
+</body>
+
+</html>

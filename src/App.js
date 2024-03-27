@@ -8,11 +8,12 @@ import OblibenaBarva from './oblibena_barva/OblibenaBarva';
 import { useState } from 'react';
 import Vtip from './vtip/Vtip';
 import VyberVtip from './vtip/VyberVtip';
+import Medved from './hry/Medved';
 
 export default function App() {
 
   const [vtip, vyberVtip] = useState('')
-  const [barva, nastavBarvu] = useState('');
+  const [barva, nastavBarvu] = useState(localStorage.getItem('oblibenaBarva') || '');
 
   return (
     <HashRouter basename='/'>
@@ -26,6 +27,7 @@ export default function App() {
           <Route path="/eshop" element={<Eshop />} />
           <Route path="/oblibena-barva" element={<OblibenaBarva barva={barva} nastavBarvu={nastavBarvu}/>} />
           <Route path="/vyber-vtip" element={<VyberVtip vyberVtip={vyberVtip}/>} />
+          <Route path="/hra" element={<Medved />} />
           <Route path="*" element={<NoPage />} />
       </Routes>
    

@@ -6,12 +6,18 @@ export default function OblibenaBarva(props) {
     const barva = props.barva;
     const nastavBarvu = props.nastavBarvu;
 
-    return(
+    return (
         <>
             <Typography variant="h3" gutterBottom>Jaká je vaše oblíbená barva?</Typography>
-            <input type='color' value={barva} onChange={(e) => nastavBarvu(e.target.value)}></input>
+            <input type='color' value={barva} onChange={(e) => {
+                let vybranaBarva = e.target.value
+                nastavBarvu(vybranaBarva)
+                localStorage.setItem('oblibenaBarva', vybranaBarva)
+            }
+            }
+            ></input>
 
-            <BarevneOkno oblibenaBarva={barva}/>
+            <BarevneOkno oblibenaBarva={barva} />
         </>
     )
 }
