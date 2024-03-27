@@ -1,11 +1,10 @@
-import { Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
 import BarevneOkno from './BarevneOkno';
 
-export default function OblibenaBarva() {
+export default function OblibenaBarva(props) {
 
-    const [barva, nastavBarvu] = useState('');
+    const barva = props.barva;
+    const nastavBarvu = props.nastavBarvu;
 
     return(
         <>
